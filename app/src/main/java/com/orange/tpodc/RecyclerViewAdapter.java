@@ -59,16 +59,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             int mPosition = getLayoutPosition();
             String element = mTaskList.get(mPosition);
             Toast.makeText(itemView.getContext(), "validé",Toast.LENGTH_LONG).show();
-//            AlertDialog.Builder myAlert = new AlertDialog.Builder(view.getContext());
-//            myAlert.setTitle("Confirmation");
-//            myAlert.setMessage("Avez vous terminé la tâche "+element);
-//            myAlert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                    Toast.makeText(view.getContext(), "validé",Toast.LENGTH_LONG).show();
-//                }
-//            });
-//            myAlert.show();
+            AlertDialog.Builder myAlert = new AlertDialog.Builder(view.getContext());
+            myAlert.setTitle("Confirmation");
+            myAlert.setMessage("Avez vous terminé la tâche "+element);
+            myAlert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Toast.makeText(view.getContext(), "validé",Toast.LENGTH_LONG).show();
+                }
+            });
+            myAlert.show();
         }
     }
 }

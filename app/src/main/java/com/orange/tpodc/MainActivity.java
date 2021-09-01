@@ -60,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
                // Toast.makeText(this,"salueeee",Toast.LENGTH_LONG).show();
                 //Toast.makeText(getApplicationContext(),"dfdfdfdfd",Toast.LENGTH_LONG).show();
                 AlertDialog.Builder myAlert = new AlertDialog.Builder(MainActivity.this);
+
                 View formView = getLayoutInflater().inflate(R.layout.alertforrm_layout,null);
+
                 EditText description = formView.findViewById(R.id.alert_edit);
                 myAlert.setView(formView);
 
