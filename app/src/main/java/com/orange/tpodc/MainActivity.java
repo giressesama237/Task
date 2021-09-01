@@ -3,11 +3,15 @@ package com.orange.tpodc;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -18,6 +22,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.orange.tpodc.databinding.ActivityMainBinding;
 
 import android.view.Menu;
@@ -26,7 +32,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private LinkedList<String> mTasklist = new LinkedList<>();
@@ -35,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewAdapter mAdapter;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    FirebaseFirestore db =  FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +82,24 @@ public class MainActivity extends AppCompatActivity {
                 myAlert.setPositiveButton("Enregister", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Map<String, Object> task = new HashMap<>();
+                        task.put("name","Douala" );
+                        task.put("state", true);
+                        task.put("country", true);
+                        db.collection("taches")
+                                .add(task)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("TAG_FAILURE", "Error writing document", e);
+                                    }
+                                });
                        int mTaskListSize = mTasklist.size();
                         //mAlertEdit = findViewById(R.id.alert_edit);
                         mTasklist.addLast(description.getText().toString());
@@ -96,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new RecyclerViewAdapter(this, mTasklist);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
     }
 

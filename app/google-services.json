@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "937582833887",
+    "project_id": "odc-workshop",
+    "storage_bucket": "odc-workshop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937582833887:android:c0a63ef8d2fdd54c09796a",
+        "android_client_info": {
+          "package_name": "com.orange.tpodc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "937582833887-r0gl5s509st48i1v8oa92m98nhdcecm7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPtwo8p0yp4L1LehoVXEolB4P-OTxwwy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "937582833887-r0gl5s509st48i1v8oa92m98nhdcecm7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
