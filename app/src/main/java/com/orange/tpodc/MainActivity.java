@@ -32,18 +32,19 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private LinkedList<String> mTasklist = new LinkedList<>();
+    private ArrayList<Task> mTasklist = new ArrayList<>();
     private EditText mAlertEdit;
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    FirebaseFirestore db =  FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,30 +82,12 @@ public class MainActivity extends AppCompatActivity {
                 myAlert.setPositiveButton("Enregister", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Map<String, Object> task = new HashMap<>();
-                        task.put("name","Douala" );
-                        task.put("state", true);
-                        task.put("country", true);
-                        db.collection("taches")
-                                .add(task)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
+                        int mTaskListSize = mTasklist.size();
+                        Task task = new Task(description.getText().toString(),false,0);
+                        addTaskToList(task);
+                        FirebaseUtil.addTask(task);
 
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w("TAG_FAILURE", "Error writing document", e);
-                                    }
-                                });
-                       int mTaskListSize = mTasklist.size();
-                        //mAlertEdit = findViewById(R.id.alert_edit);
-                        mTasklist.addLast(description.getText().toString());
-                        mRecyclerView.getAdapter().notifyItemInserted(mTaskListSize);
-                        mRecyclerView.smoothScrollToPosition(mTaskListSize);
-                        Toast.makeText(getApplicationContext(),"okkk",Toast.LENGTH_LONG).show();
+
                     }
                 });
                 myAlert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -120,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mRecyclerView = findViewById(R.id.task_recyclerview);
-        mAdapter = new RecyclerViewAdapter(this, mTasklist);
+        mAdapter = new RecyclerViewAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -154,5 +136,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+    public void addTaskToList(Task task){
+
+        //mAlertEdit = findViewById(R.id.alert_edit);
+        mTasklist.add(task);
+        mRecyclerView.getAdapter().notifyItemInserted(0);
+
+        Toast.makeText(getApplicationContext(),"okkk",Toast.LENGTH_LONG).show();
     }
 }
